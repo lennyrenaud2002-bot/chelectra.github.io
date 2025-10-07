@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selectra - Checklist avec Historique des Ventes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="checklist-app">
+            
+            <!-- Navigation Tabs -->
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="switchTab('checklist')" id="tab-checklist">
+                    📋 Checklist
+                    <span class="tab-badge" id="checklist-badge">0%</span>
+                </button>
+                <button class="nav-tab" onclick="switchTab('history')" id="tab-history">
+                    📊 Historique
+                    <span class="tab-badge success" id="history-badge">0</span>
+                </button>
+            </div>
+
+            <!-- TAB 1: CHECKLIST -->
+            <div id="tab-checklist-content" class="tab-content active">
+                
+                <!-- Header avec logo et timer -->
+                <div class="app-header">
+                    <div class="logo-section">
+                        <div class="logo-icon">⚡</div>
+                        <div class="logo-text">
+                            <div class="logo-title">SELECTRA</div>
+                            <div class="logo-subtitle">Checklist + Historique</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timer-section">
+                        <div class="timer-display">
+                            <span class="timer-icon">⏱️</span>
+                            <span class="timer-text" id="call-timer">00:00</span>
+                        </div>
+                        <button class="start-call-btn" id="start-call" onclick="startCall()">
+                            📞 Démarrer
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Section Informations Client -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title">📝 INFORMATIONS CLIENT</h3>
+                        <div class="section-counter" id="client-counter">0/8</div>
+                    </div>
+                    
+                    <div class="client-fields">
+                        <div class="field-row">
+                            <div class="field-group">
+                                <label for="client-nom">Nom *</label>
+                                <input type="text" id="client-nom" class="field-input required" placeholder="Nom du client" data-section="client">
+                            </div>
+                            <div class="field-group">
+                                <label for="client-prenom">Prénom *</label>
+                                <input type="text" id="client-prenom" class="field-input required" placeholder="Prénom du client" data-section="client">
+                            </div>
+                        </div>
+                        
+                        <div class="field-group">
+                            <label for="client-adresse">Adresse complète *</label>
+                            <textarea id="client-adresse" class="field-textarea required" rows="2" placeholder="Adresse complète, CP, Ville" data-section="client"></textarea>
+                        </div>
+                        
+                        <div class="field-row">
+                            <div class="field-group">
+                                <label for="client-email">Email *</label>
+                                <input type="email" id="client-email" class="field-input required" placeholder="email@exemple.fr" data-section="client">
+                            </div>
+                            <div class="field-group">
+                                <label for="client-telephone">Téléphone *</label>
+                                <input type="tel" id="client-telephone" class="field-input required" placeholder="06 XX XX XX XX" data-section="client">
+                            </div>
+                        </div>
+                        
+                        <div class="field-row">
+                            <div class="field-group">
+                                <label for="client-pdl">PDL électricité</label>
+                                <input type="text" id="client-pdl" class="field-input" placeholder="14 chiffres PDL" maxlength="14" data-section="client">
+                            </div>
+                            <div class="field-group">
+                                <label for="client-pce">PCE gaz</label>
+                                <input type="text" id="client-pce" class="field-input" placeholder="14 chiffres PCE" maxlength="14" data-section="client">
+                            </div>
+                        </div>
+                        
+                        <div class="field-group secure-field">
+                            <label for="client-iban">IBAN 🔒</label>
+                            <input type="text" id="client-iban" class="field-input secure" placeholder="FR76..." data-section="client">
+                            <small class="secure-note">🔒 Données sécurisées</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Accords Explicites -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title">✅ ACCORDS EXPLICITES</h3>
+                        <div class="section-counter" id="accords-counter">0/6</div>
+                    </div>
+                    
+                    <div class="checkbox-list">
+                        <label class="checkbox-item obligatoire">
+                            <input type="checkbox" id="accord-rgpd" data-section="accords">
+                            <span class="checkmark"></span>
+                            <span class="item-label">RGPD données</span>
+                            <span class="badge badge-obligatoire">OBLIGATOIRE</span>
+                        </label>
+                        
+                        <label class="checkbox-item obligatoire">
+                            <input type="checkbox" id="accord-reseau" data-section="accords">
+                            <span class="checkmark"></span>
+                            <span class="item-label">Accès réseau Enedis/GRDF</span>
+                            <span class="badge badge-obligatoire">OBLIGATOIRE</span>
+                        </label>
+                        
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="accord-voltalis" data-section="accords">
+                            <span class="checkmark"></span>
+                            <span class="item-label">Voltalis RDV planifié</span>
+                        </label>
+                        
+                        <label class="checkbox-item payant">
+                            <input type="checkbox" id="accord-axa" data-section="accords" data-payant="true">
+                            <span class="checkmark"></span>
+                            <span class="item-label">AXA Assistance 6,99€</span>
+                            <span class="badge badge-payant">PAYANT</span>
+                        </label>
+                        
+                        <label class="checkbox-item payant">
+                            <input type="checkbox" id="accord-carbone" data-section="accords" data-payant="true">
+                            <span class="checkmark"></span>
+                            <span class="item-label">Compensation Carbone</span>
+                            <span class="badge badge-payant">PAYANT</span>
+                        </label>
+                        
+                        <label class="checkbox-item payant">
+                            <input type="checkbox" id="accord-mcp" data-section="accords" data-payant="true">
+                            <span class="checkmark"></span>
+                            <span class="item-label">Mon Conseiller Perso</span>
+                            <span class="badge badge-payant">PAYANT</span>
+                        </label>
+                    </div>
+                    
+                    <div style="margin-top: 12px; padding: 10px; background: #F8FAFC; border-radius: 6px; text-align: center; font-size: 12px;">
+                        <span style="color: #374151;">Services payants: <strong id="services-count" style="color: #0052CC; font-weight: 600;">0</strong>/3</span>
+                        <span style="color: #64748B; margin-left: 6px;">(minimum 2 requis)</span>
+                    </div>
+                </div>
+
+                <!-- Section Mentions Légales -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title">⚖️ MENTIONS LÉGALES</h3>
+                        <div class="section-counter" id="mentions-counter">0/5</div>
+                    </div>
+                    
+                    <div class="checkbox-list">
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="mention-axa-exclusions" data-section="mentions">
+                            <span class="checkmark"></span>
+                            <span class="item-label">AXA 4 exclusions</span>
+                            <span class="badge badge-timer">30s min</span>
+                        </label>
+                        
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="mention-axa-rgpd" data-section="mentions">
+                            <span class="checkmark"></span>
+                            <span class="item-label">AXA RGPD + durée</span>
+                            <span class="badge badge-timer">20s min</span>
+                        </label>
+                        
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="mention-carbone" data-section="mentions">
+                            <span class="checkmark"></span>
+                            <span class="item-label">Carbone processus</span>
+                            <span class="badge badge-timer">15s min</span>
+                        </label>
+                        
+                        <label class="checkbox-item obligatoire">
+                            <input type="checkbox" id="mention-frais" data-section="mentions">
+                            <span class="checkmark"></span>
+                            <span class="item-label">Frais MES communiqués</span>
+                            <span class="badge badge-obligatoire">OBLIGATOIRE</span>
+                        </label>
+                        
+                        <label class="checkbox-item obligatoire">
+                            <input type="checkbox" id="mention-retractation" data-section="mentions">
+                            <span class="checkmark"></span>
+                            <span class="item-label">Délai rétractation 14j</span>
+                            <span class="badge badge-obligatoire">OBLIGATOIRE</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Section Signatures SMS -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title">📱 SIGNATURES SMS</h3>
+                        <div class="section-counter" id="sms-counter">0/3</div>
+                    </div>
+                    
+                    <div class="checkbox-list">
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="sms-axa" data-section="sms">
+                            <span class="checkmark"></span>
+                            <span class="item-label">Code AXA reçu/validé</span>
+                        </label>
+                        
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="sms-carbone" data-section="sms">
+                            <span class="checkmark"></span>
+                            <span class="item-label">Code Carbone reçu/validé</span>
+                        </label>
+                        
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="sms-mcp" data-section="sms">
+                            <span class="checkmark"></span>
+                            <span class="item-label">Code MCP reçu/validé</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Section Étapes Commerciales -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title">🎯 ÉTAPES COMMERCIALES</h3>
+                        <div class="section-counter" id="etapes-counter">0/7</div>
+                    </div>
+                    
+                    <div class="checkbox-list">
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="etape-qualification" data-section="etapes">
+                            <span class="checkmark"></span>
+                            <span class="item-label">Client qualifié correctement</span>
+                        </label>
+                        
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="etape-besoins" data-section="etapes">
+                            <span class="checkmark"></span>
+                            <span class="item-label">Besoins analysés</span>
+                        </label>
+                        
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="etape-offre" data-section="etapes">
+                            <span class="checkmark"></span>
+                            <span class="item-label">Offre présentée clairement</span>
+                        </label>
+                        
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="etape-objections" data-section="etapes">
+                            <span class="checkmark"></span>
+                            <span class="item-label">Objections traitées</span>
+                        </label>
+                        
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="etape-addons" data-section="etapes">
+                            <span class="checkmark"></span>
+                            <span class="item-label">Add-ons proposés (min 2 payants)</span>
+                        </label>
+                        
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="etape-signatures" data-section="etapes">
+                            <span class="checkmark"></span>
+                            <span class="item-label">Signatures obtenues</span>
+                        </label>
+                        
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="etape-recap" data-section="etapes">
+                            <span class="checkmark"></span>
+                            <span class="item-label">Récap final effectué</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Actions finales -->
+                <div class="final-actions">
+                    <button class="action-btn validate-btn" id="validate-btn" onclick="openValidationModal()" disabled>
+                        ⚠️ 0 critère(s) manquant(s)
+                    </button>
+                    <button class="action-btn reset-btn" onclick="resetChecklist()">
+                        🔄 Reset
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 2: HISTORIQUE -->
+            <div id="tab-history-content" class="tab-content">
+                <div class="history-container">
+                    <div class="history-header">
+                        <h3 class="history-title">📊 Historique des Ventes</h3>
+                        <div class="history-stats">
+                            <div class="history-stat">
+                                <span>📈 Total:</span>
+                                <strong id="total-sales">0</strong>
+                            </div>
+                            <div class="history-stat">
+                                <span>⭐ Services:</span>
+                                <strong id="total-services">0</strong>
+                            </div>
+                        </div>
+                        <button class="clear-history-btn" onclick="clearHistory()">🗑️ Vider</button>
+                    </div>
+                    
+                    <div class="history-list" id="history-list">
+                        <div class="history-empty">
+                            <div class="history-empty-icon">📋</div>
+                            <p>Aucune vente enregistrée</p>
+                            <small>Les ventes validées apparaîtront ici</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Validation -->
+        <div id="validation-modal" class="validation-modal">
+            <div class="validation-content">
+                <div class="validation-header">
+                    <h3>🎯 Validation de la Vente</h3>
+                    <p>Vérifiez tous les éléments avant enregistrement</p>
+                </div>
+                
+                <div class="validation-body">
+                    <div class="validation-section">
+                        <h4>📝 Informations Client</h4>
+                        <div id="validation-client"></div>
+                    </div>
+                    
+                    <div class="validation-section">
+                        <h4>✅ Accords & Services</h4>
+                        <div id="validation-accords"></div>
+                    </div>
+                    
+                    <div class="validation-section">
+                        <h4>⚖️ Conformité</h4>
+                        <div id="validation-conformite"></div>
+                    </div>
+                </div>
+                
+                <div class="validation-actions">
+                    <button class="validation-btn validation-btn-cancel" onclick="closeValidationModal()">
+                        Annuler
+                    </button>
+                    <button class="validation-btn validation-btn-save" id="validation-save-btn" onclick="saveToHistory()" disabled>
+                        💾 Enregistrer Vente
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications -->
+        <div id="notification" class="notification" style="display: none;"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
