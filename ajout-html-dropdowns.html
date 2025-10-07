@@ -1,0 +1,81 @@
+<!-- === AJOUT HTML POUR MENUS DEROULANTS === -->
+<!-- À ajouter APRÈS la section "Accords Explicites" dans l'HTML existant -->
+
+<!-- Section Services Détaillés (AJOUT) -->
+<div class="section">
+    <div class="section-header">
+        <h3 class="section-title">📊 SERVICES DÉTAILLÉS</h3>
+        <div style="font-size: 10px; color: #64748B;">Statut de proposition/vente</div>
+    </div>
+    
+    <div class="service-dropdown-section">
+        <div class="service-dropdown-header">
+            🛡️ AXA ASSISTANCE
+        </div>
+        
+        <div class="service-dropdown-row">
+            <div class="dropdown-group">
+                <label class="dropdown-label" for="axa-statut">Statut AXA</label>
+                <select id="axa-statut" class="service-select status-non" onchange="handleServiceStatusChange('axa', this.value)">
+                    <option value="non">❌ Non proposé</option>
+                    <option value="propose">💬 Proposé au client</option>
+                    <option value="vendu">✅ Vendu/Souscrit</option>
+                </select>
+            </div>
+            <div class="dropdown-group">
+                <label class="dropdown-label">Prix fixe</label>
+                <div style="padding: 8px 10px; background: #F8FAFC; border: 2px solid #E2E8F0; border-radius: 6px; font-size: 12px; color: #64748B;">
+                    6,99€/mois
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="service-dropdown-section" style="margin-top: 12px;">
+        <div class="service-dropdown-header">
+            🌱 COMPENSATION CARBONE (OFFSET)
+        </div>
+        
+        <div class="service-dropdown-row">
+            <div class="dropdown-group">
+                <label class="dropdown-label" for="offset-statut">Statut Offset</label>
+                <select id="offset-statut" class="service-select status-non" onchange="handleServiceStatusChange('offset', this.value)">
+                    <option value="non">❌ Non proposé</option>
+                    <option value="propose">💬 Proposé au client</option>
+                    <option value="vendu">✅ Vendu/Souscrit</option>
+                </select>
+            </div>
+            <div class="dropdown-group">
+                <label class="dropdown-label" for="offset-palier">Palier Offset</label>
+                <select id="offset-palier" class="service-select" onchange="handleOffsetPalierChange(this.value)" disabled>
+                    <option value="2.99">2,99€ / 2,24t CO₂</option>
+                    <option value="3.99">3,99€ / 2,98t CO₂</option>
+                    <option value="4.99">4,99€ / 3,59t CO₂</option>
+                    <option value="5.99">5,99€ / 4,49t CO₂</option>
+                    <option value="7.50">7,50€ / 5,40t CO₂</option>
+                    <option value="14.99">14,99€ / 11,34t CO₂</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Groupe palier (masqué par défaut) -->
+        <div class="offset-palier-group">
+            <div class="palier-info">
+                2,99€/mois - 2,24t CO₂/mois
+            </div>
+        </div>
+    </div>
+    
+    <!-- Résumé des services -->
+    <div style="margin-top: 16px; padding: 12px; background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); border: 1px solid #BBF7D0; border-radius: 8px;">
+        <div style="font-size: 12px; font-weight: 600; color: #166534; margin-bottom: 6px;">
+            📈 Résumé Commercial
+        </div>
+        <div style="font-size: 11px; color: #065F46;">
+            Services vendus: <strong id="services-vendus-count">0</strong> | 
+            Services proposés: <strong id="services-proposes-count">0</strong>
+            <br>
+            <span style="color: #059669;">Objectif: 2 services vendus minimum</span>
+        </div>
+    </div>
+</div>
